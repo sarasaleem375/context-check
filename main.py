@@ -1,4 +1,7 @@
-"""Context Check v0.2: will this document fit in an AI model, and what will it cost?"""
+"""Context Check v1: will this document fit in an AI model, and what will it cost?"""
+
+import requests
+
 
 CHARS_PER_TOKEN = 4  # rule of thumb for English text
 PRICE_PER_MILLION_TOKENS = 3.00  # illustrative USD rate per 1M input tokens
@@ -29,25 +32,33 @@ def check_tiers(tokens):
     return results
 
 
-def load_text(path):
-    """Read a text file and return everything in it as one string."""
-    with open(path, "r", encoding="utf-8") as file:
+def load_text(source):
+    """Load text file from a web address (http/https) or from a local file."""
+    if source.startswith("http://") or source.startswith("https://"):
+        response = requests.get(source, timeout=10)
+        response.raise_for_status()     # truns 4xx / 5xx
+        return response.text    
+    with open(source, "r", encoding="utf-8") as file:
         return file.read()
 
 
 def main():
-    path = input("Document to check: ").strip()
+    source = input("file or web address to check: ").strip()
+    
     try:
-        text = load_text(path)
+        text = load_text(source)
     except FileNotFoundError:
-        print(f"Could not find {path}. Check the name and the folder you are in.")
+        print(f"Could not find {source}. Check the name and the folder you are in.")
         return
     except UnicodeDecodeError:
-        print(f"{path} doesn't look like a plain text file.")
+        print(f"{source} doesn't look like a plain text file.")
         return
-
+    except requests.exceptions.RequestException as error:
+        print(f"Could not download {source}")
+        print(f"Reason: {error}")
+        return
     if not text.strip():
-        print(f"{path} is empty. There is nothing to check.")
+        print(f"{source} is empty. There is nothing to check.")
         return
 
     tokens = estimate_tokens(text)
