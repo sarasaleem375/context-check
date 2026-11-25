@@ -1,5 +1,7 @@
 """Context Check v1: will this document fit in an AI model, and what will it cost?"""
 
+import sys
+
 import requests
 
 
@@ -44,6 +46,10 @@ def load_text(source):
 
 def main():
     source = input("file or web address to check: ").strip()
+    if len(sys.argv) > 1:
+        source = sys.argv[1]
+    else:
+        source = input("File or web address to check: ").strip()
     
     try:
         text = load_text(source)
