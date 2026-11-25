@@ -25,8 +25,7 @@ Saved report.json
 ## Setup
 You need Python 3.12 or newer and Git.
 ```bash
-git clone https://github.com/sarasaleem375/.git
-cd context-check
+git clone https://github.com/sarasaleem375/context-check
 python3 -m venv venv            # Windows: python m venv venv
 source venv/bin/activate        # Windows (Git Bash): source venv/Scripts/activate
 pip install -r requirements.txt
