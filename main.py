@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """Context Check v1: will this document fit in an AI model, and what will it cost?"""
 import json
 import sys
@@ -100,3 +101,16 @@ def main():
     print("Saved report.json")
 
 main()
+=======
+CHARS_PER_TOKEN = 4
+PRICE_PER_MILLION_TOKENS = 3.00
+text = input("Paste some text: ")
+chars = len(text)
+words = len(text.split())
+tokens = round(chars / CHARS_PER_TOKEN)
+cost = tokens / 1_000_000 * PRICE_PER_MILLION_TOKENS
+print(f"Characters: {chars}")
+print(f"Words: {words}")
+print(f"Estimated tokens: {tokens}")
+print(f"Estimated cost: ${cost:.6f}")
+>>>>>>> 7750fd3654e68dc0ef98f6290eac5750036a1d21

@@ -2,5 +2,9 @@ venv/
 __pycache__/
 .env
 .DS_Store
+<<<<<<< HEAD
 report.json
 report.json
+=======
+report.json
+>>>>>>> 7750fd3654e68dc0ef98f6290eac5750036a1d21

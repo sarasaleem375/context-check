@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Context Check
 A command-line tool that tells you whether a document will fit into an AI model,
@@ -51,3 +52,9 @@ languages (such as Urdu) and code usually use more tokens.
 - Count tokens exactly with a real tokenizer.
 - Support PDF and Word documents.
 - Send the document to an AI model and get a summary (Week 2).
+=======
+# context-check
+Estimates whether text fits into an AI model and what it would cost
+A tool that estimates tokens and cost for a piece of text
+
+>>>>>>> 7750fd3654e68dc0ef98f6290eac5750036a1d21
