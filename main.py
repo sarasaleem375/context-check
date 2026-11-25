@@ -1,5 +1,5 @@
 """Context Check v1: will this document fit in an AI model, and what will it cost?"""
-
+import json
 import sys
 
 import requests
@@ -44,8 +44,26 @@ def load_text(source):
         return file.read()
 
 
+def build_report(source, text):
+    """Collec everything we know about the document in one dictionary."""
+    tokens = estimate_tokens(text)
+    return {
+        "source": source,
+        "characters": len(text),
+        "words": len(text.split()),
+        "estimated_tokens": tokens,
+        "estimated_cost_usd": round(estimate_cost(tokens), 4),
+        "fits": check_tiers(tokens),
+    }
+
+
+def save_report(report, path="report.json"):
+    """Write the report to a JSOn file  that other programs can read"""
+    with open(path, "w", encoding="utf-8") as file:
+        json.dump(report, file, indent=2)
+
+
 def main():
-    source = input("file or web address to check: ").strip()
     if len(sys.argv) > 1:
         source = sys.argv[1]
     else:
@@ -67,17 +85,18 @@ def main():
         print(f"{source} is empty. There is nothing to check.")
         return
 
-    tokens = estimate_tokens(text)
+    report = build_report(source, text)
 
-    print(f"Characters: {len(text):,}")
-    print(f"Words: {len(text.split()):,}")
-    print(f"Estimated tokens: {tokens:,}")
-    print(f"Estimated cost: ${estimate_cost(tokens):.4f}")
-    for tier, fits in check_tiers(tokens).items():
+    print(f"Characters: {report['characters']:,}")
+    print(f"Words: {report['words']:,}")
+    print(f"Estimated tokens: {report['estimated_tokens']:,}")
+    print(f"Estimated cost: ${report['estimated_cost_usd']:.4f}")
+    for tier, fits in report["fits"].items():
         if fits:
             print(f"  {tier}: fits")
         else:
             print(f"  {tier}: TOO BIG")
-
+    save_report(report)
+    print("Saved report.json")
 
 main()
