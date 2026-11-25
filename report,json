@@ -1,0 +1,13 @@
+{
+  "source": "sample.txt",
+  "characters": 2476,
+  "words": 416,
+  "estimated_tokens": 619,
+  "estimated_cost_usd": 0.0019,
+  "fits": {
+    "Small (8K)": true,
+    "Standard (128K)": true,
+    "Large (200K)": true,
+    "Extra-large (1M)": true
+  }
+}
